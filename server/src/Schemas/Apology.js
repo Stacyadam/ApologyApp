@@ -12,6 +12,10 @@ module.exports = gql`
 		likeApology(id: ID!): Apology!
 	}
 
+	extend type Subscription {
+		apologyCreated: Apology!
+	}
+
 	type Apology {
 		id: ID!
 		text: String!

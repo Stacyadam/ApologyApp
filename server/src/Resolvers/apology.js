@@ -1,4 +1,5 @@
 const Apology = require('../models/Apology');
+const pubsub = require('../Subscriptions');
 
 module.exports = {
 	Query: {
@@ -25,6 +26,11 @@ module.exports = {
 			const apology = new Apology({ text, dateTime, likes: 0 });
 
 			const createdApology = await apology.save();
+
+			pubsub.publish('CREATED', {
+				apologyCreated: { createdApology }
+			});
+
 			return createdApology;
 		},
 
@@ -48,6 +54,12 @@ module.exports = {
 			const likedApology = await Apology.findByIdAndUpdate(id, { $set: { likes: likes + 1 } }, { new: true });
 
 			return likedApology;
+		}
+	},
+
+	Subscription: {
+		apologyCreated: {
+			subscribe: () => pubsub.asyncIterator('CREATED')
 		}
 	}
 };

@@ -3,7 +3,7 @@ const { gql } = require('apollo-server-express');
 module.exports = gql`
 	extend type Query {
 		apology(id: ID!): Apology!
-		apologies(from: String!, to: String!): [Apology!]
+		apologies(from: Int, to: Int): [Apology!]
 	}
 
 	extend type Mutation {
@@ -15,5 +15,7 @@ module.exports = gql`
 	type Apology {
 		id: ID!
 		text: String!
+		dateTime: String!
+		likes: Int
 	}
 `;

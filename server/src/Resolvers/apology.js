@@ -1,39 +1,53 @@
-const uuidv4 = require('uuid/v4');
+const Apology = require('../models/Apology');
 
 module.exports = {
 	Query: {
 		apology: (parent, args) => {
 			let { id } = args;
-			id = parseInt(id);
 
-			if (id === 1) {
-				return { id, text: 'some apology'};
-			}
-			if (id === 2) {
-				return { id, text: 'an even better apology'};
-			}
+			const apology = Apology.findById(id);
+
+			return apology;
 		},
 		apologies: (parent, args, { from, to }) => {
-			return [{ id: 1, text: 'some apology'}, { id: 2, text: 'another apology'}]
+			//TODO: Hook up from and to dateTime arguments
+			const allApologies = Apology.find({});
+
+			return allApologies;
 		}
 	},
 
 	Mutation: {
-		createApology: (parent, args) => {
+		createApology: async (parent, args) => {
 			const { text } = args;
-			return { id: uuidv4(), text }
+			const dateTime = new Date();
+
+			const apology = new Apology({ text, dateTime, likes: 0 });
+
+			const createdApology = await apology.save();
+			return createdApology;
 		},
 
-		deleteApology: (parent, args) => {
+		deleteApology: async (parent, args) => {
 			const { id } = args;
-			if (id) {
-				return true
+
+			const removed = await Apology.findById(id).remove();
+			if (removed) {
+				return true;
+			} else {
+				return false;
 			}
 		},
 
-		likeApology: (parent, args) => {
+		likeApology: async (parent, args) => {
 			const { id } = args;
-			return { id, text: 'some apology' }
+
+			//TODO: has to be a way to do this in one find
+			const { likes } = await Apology.findById(id);
+
+			const likedApology = await Apology.findByIdAndUpdate(id, { $set: { likes: likes + 1 } }, { new: true });
+
+			return likedApology;
 		}
 	}
 };

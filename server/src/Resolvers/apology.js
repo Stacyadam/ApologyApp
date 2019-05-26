@@ -10,11 +10,18 @@ module.exports = {
 
 			return apology;
 		},
-		apologies: (parent, args, { from, to }) => {
+		apologies: async (parent, args) => {
+			const { first, after} = args;
 			//TODO: Hook up from and to dateTime arguments
-			const allApologies = Apology.find({});
+			const apologiesQuery = !first || !after ? {} : { _id: { $gt: after } };
 
-			return allApologies;
+			const totalCount = await Apology.find({}).countDocuments();
+
+			const results = await Apology.find(apologiesQuery).limit(first);
+
+			const resultsObj = { totalCount, results };
+
+			return resultsObj;
 		}
 	},
 

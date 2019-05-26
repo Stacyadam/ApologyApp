@@ -21,7 +21,8 @@ const FeedBody = styled.ul`
     padding: 16px;
     border-radius: 4px;
     margin-bottom: 32px;
-    color: ${props => props.theme.dark};
+    color: #636e72;
+    font-size: 24px;
   }
 `
 

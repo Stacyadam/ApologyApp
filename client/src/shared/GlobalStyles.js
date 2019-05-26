@@ -5,11 +5,7 @@ const GlobalStyles = createGlobalStyle`
   ${normalize()}
   body {
     font-family: 'Inter', sans-serif;
-    ${props => linearGradient({
-colorStops: [`${props.theme.secondary} 0%`, `${props.theme.primary} 95%`],
-toDirection: 'to top right',
-fallback: props.theme.primary,
-})};
+    background-color: #ecf0f1;
     outline: ${props => props.theme.secondary};
   }
 `

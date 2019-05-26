@@ -33,18 +33,19 @@ const Button = styled.button`
   margin: 32px 0;  
   padding: 16px 32px;
   background-color: ${props => props.theme.secondary};
-  color: ${props => props.theme.primary};
+  color: ${props => props.theme.light};
+  border: none;
   font-size: 18px;
-  font-weight: 500;
-  border: 1px solid transparent;
+  font-weight: 600;
+  letter-spacing: 2px;
   border-radius: 4px;
-  transition: border 0.25s ease-in-out, background-color 0.25s ease-in-out, color 0.25s ease-in-out;
+  ${props => linearGradient({
+    colorStops: [`${props.theme.secondary} 0%`, `${props.theme.primary} 95%`],
+    toDirection: 'to top right',
+    fallback: props.theme.primary,
+  })};
   &:hover {
     cursor: pointer;
-    border: 1px solid ${props => props.theme.secondary};
-    background-color: ${props => props.theme.primary};
-    color: ${props => props.theme.secondary};
-    transition: border 0.25s ease-in-out, background-color 0.25s ease-in-out, color 0.25s ease-in-out;
   }
 `
 

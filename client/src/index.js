@@ -3,8 +3,14 @@ import ReactDOM from 'react-dom'
 import { ThemeProvider } from 'styled-components'
 import ApolloClient from "apollo-boost"
 import { ApolloProvider } from 'react-apollo-hooks';
+import { HashRouter as Router } from 'react-router-dom'
+
 import GlobalStyles from './shared/GlobalStyles'
 import App from './components/App'
+
+const client = new ApolloClient({
+  uri: 'http://localhost:8000/graphql'
+})
 
 const theme = {
   primary: '#6c5ce7',
@@ -13,9 +19,6 @@ const theme = {
   dark: '#2d3436'
 }
 
-const client = new ApolloClient({
-  uri: 'http://localhost:8000/graphql'
-})
 
 // sorta eh but it works
 ReactDOM.render(
@@ -23,7 +26,9 @@ ReactDOM.render(
       <ApolloProvider client={client}>
       <>
         <GlobalStyles />
-        <App />
+        <Router basename="/sorry">
+          <App />
+        </Router>
       </>
     </ApolloProvider>
     </ThemeProvider>, document.getElementById("root"))

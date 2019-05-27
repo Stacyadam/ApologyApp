@@ -1,14 +1,7 @@
 import React from 'react'
-import { Link as RRDLink } from 'react-router-dom'
 import styled from 'styled-components'
 import gql from 'graphql-tag'
 import { useQuery } from 'react-apollo-hooks'
-
-const Link = styled(RRDLink)`
-  text-decoration: none;
-  width: 100%;
-  height: auto;
-`
 
 const FeedBody = styled.ul`
   box-sizing: border-box;
@@ -33,20 +26,17 @@ const FeedBody = styled.ul`
   }
 `
 
-const GET_POSTS = gql`
+const GET_POST = gql`
   query {
-    apologies {
-    results{
-      id
+    apology(id: "5ce7506817b7277b5be22bf2") {
       text
       likes
-    }
     }
   }
 `
 
-const Feed = props => {
-  const { data, error, loading } = useQuery(GET_POSTS)
+const Single = props => {
+  const { data, error, loading } = useQuery(GET_POST)
   if (loading) {
     return <div>Loading...</div>
   }
@@ -55,13 +45,10 @@ const Feed = props => {
   }
   return (
     <FeedBody>
-      {data.apologies.results.reverse().map(post => (
-        <Link key={post.id} to={`/post/${post.id}`}>
-          <li>{post.text}</li>
-        </Link>
-      ))}
+      {console.log(data)} 
+      <li>{data.apology.text}</li>
     </FeedBody>
   )
 }
 
-export default Feed
+export default Single 
